@@ -5,7 +5,7 @@ trigger ContactTrigger on Contact (after insert, after update) {
 
     for (Contact contact : Trigger.new) { /* Trigger.new refers to the new version of the Contact records being inserted or updated */
         if (contact.AccountId != null) {
-            Account acc = [SELECT Id, NumberOfContact__c FROM Account WHERE Id contact.AccountId]; /* SOQL Query to fetch the Account informations */
+            Account acc = [SELECT Id, NumberOfContact__c FROM Account WHERE Id = :contact.AccountId]; /* SOQL Query to fetch the Account informations */
             acc.NumberOfContacts__c = (acc.NumberOfContacts__c == null ? 0 : acc.NumberOfContacts__c) + 1;
             accountsToUpdate.add(acc);
         }
